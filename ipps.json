@@ -1,0 +1,68 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "title" : "ipps",
+    "version" : "1.0.0",
+    "description" : "ipps"
+  },
+  "paths" : {
+    "/retrieve/{id}" : {
+      "get" : {
+        "operationId" : "getId",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful.",
+            "schema" : {
+              "$ref" : "#/definitions/customer"
+            }
+          }
+        },
+        "produces" : [ "application/json" ],
+        "description" : "Retrieve id",
+        "parameters" : [ {
+          "required" : true,
+          "name" : "id",
+          "in" : "path",
+          "type" : "string"
+        } ]
+      }
+    }
+  },
+  "basePath" : "/ipps/customer/v1",
+  "definitions" : {
+    "customer" : {
+      "type" : "object",
+      "properties" : {
+        "customerid" : {
+          "type" : "string"
+        },
+        "firstName" : {
+          "type" : "string"
+        },
+        "lastName" : {
+          "type" : "string"
+        },
+        "phone" : {
+          "type" : "string"
+        },
+        "address" : {
+          "type" : "string"
+        },
+        "city" : {
+          "type" : "string"
+        },
+        "region" : {
+          "type" : "string"
+        },
+        "postalCd" : {
+          "type" : "string"
+        },
+        "country" : {
+          "type" : "string"
+        }
+      }
+    }
+  },
+  "schemes" : [ "http" ],
+  "host" : "ipps.icp-proxy.apps.podrick.169.62.229.200.nip.io:31130"
+}
