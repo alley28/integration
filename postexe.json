@@ -1,57 +1,57 @@
 {
-	"swagger": "2.0",
-	"info": {
-		"title": "queueProcess",
-		"version": "1.0.0",
-		"description": "queueProcess"
-	},
-	"paths": {
-		"/execute": {
-			"post": {
-				"operationId": "postExecute",
-				"responses": {
-					"200": {
-						"description": "The operation was successful.",
-						"schema": {
-							"$ref": "#/definitions/batch"
-						}
-					}
-				},
-				"consumes": ["application/json"],
-				"produces": ["application/json"],
-				"description": "Insert a execute",
-				"parameters": [{
-					"name": "body",
-					"in": "body",
-					"schema": {
-						"type": "boolean"
-					},
-					"description": "The request body for the operation",
-					"required": true
-				}]
-			}
-		}
-	},
-	"basePath": "/queueprocess/v1",
-	"definitions": {
-		"batch": {
-			"type": "array",
-			"items": {
-				"type": "object",
-				"properties": {
-					"processTime": {
-						"type": "string"
-					},
-					"processFlag": {
-						"type": "string"
-					},
-					"batchid": {
-						"type": "string"
-					}
-				}
-			}
-		}
-	},
-	"schemes": ["http"],
-	"host": "postexe.icp-proxy.alley-cluster-2-97f2cdaea86b0f55496562172dc793b6-0001.us-east.containers.appdomain.cloud:31506"
+  "swagger" : "2.0",
+  "info" : {
+    "title" : "queueProcess",
+    "version" : "1.0.0",
+    "description" : "queueProcess"
+  },
+  "paths" : {
+    "/execute" : {
+      "post" : {
+        "operationId" : "postExecute",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful.",
+            "schema" : {
+              "$ref" : "#/definitions/batch"
+            }
+          }
+        },
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "description" : "Insert a execute",
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "schema" : {
+            "type" : "boolean"
+          },
+          "description" : "The request body for the operation",
+          "required" : true
+        } ]
+      }
+    }
+  },
+  "basePath" : "/queueprocess/v1",
+  "definitions" : {
+    "batch" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "processTime" : {
+            "type" : "string"
+          },
+          "processFlag" : {
+            "type" : "string"
+          },
+          "batchid" : {
+            "type" : "string"
+          }
+        }
+      }
+    }
+  },
+  "schemes" : [ "http" ],
+  "host" : "postexe.icp-proxy.apps.drogo.169.63.145.240.nip.io:31873"
 }
