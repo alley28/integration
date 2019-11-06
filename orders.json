@@ -1,0 +1,35 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "title" : "orders",
+    "version" : "1.0.0",
+    "description" : "orders"
+  },
+  "paths" : {
+    "/create" : {
+      "post" : {
+        "operationId" : "New Order",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful."
+          }
+        },
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "description" : "Create a New Order",
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "schema" : {
+            "type" : "string"
+          },
+          "description" : "The request body for the operation",
+          "required" : true
+        } ]
+      }
+    }
+  },
+  "basePath" : "/orders/v1",
+  "schemes" : [ "http" ],
+  "host" : "orders.icp-proxy.apps.drogo.169.63.145.240.nip.io:31989"
+}
