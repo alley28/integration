@@ -1,0 +1,143 @@
+
+{
+  "swagger" : "2.0",
+  "info" : {
+    "title" : "Invoicing",
+    "version" : "1.0.0",
+    "description" : "Invoicing"
+  },
+  "paths" : {
+    "/invoice" : {
+      "put" : {
+        "operationId" : "putInvoice",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful.",
+            "schema" : {
+              "$ref" : "#/definitions/Statement"
+            }
+          }
+        },
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "description" : "Update invoice",
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "schema" : {
+            "$ref" : "#/definitions/Invoice"
+          },
+          "description" : "The request body for the operation",
+          "required" : true
+        } ]
+      }
+    }
+  },
+  "basePath" : "/invoicing/v1",
+  "definitions" : {
+    "Invoice" : {
+      "type" : "object",
+      "properties" : {
+        "invoices" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "forenames" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "surname" : {
+                "type" : "string"
+              },
+              "items" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "code" : {
+                      "type" : "string"
+                    },
+                    "description" : {
+                      "type" : "string"
+                    },
+                    "category" : {
+                      "type" : "string"
+                    },
+                    "price" : {
+                      "type" : "string"
+                    },
+                    "quantity" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              },
+              "balance" : {
+                "type" : "string"
+              },
+              "quantity" : {
+                "type" : "integer"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Statement" : {
+      "type" : "object",
+      "properties" : {
+        "invoices" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "forenames" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "surname" : {
+                "type" : "string"
+              },
+              "items" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "code" : {
+                      "type" : "string"
+                    },
+                    "description" : {
+                      "type" : "string"
+                    },
+                    "category" : {
+                      "type" : "string"
+                    },
+                    "price" : {
+                      "type" : "string"
+                    },
+                    "quantity" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              },
+              "balance" : {
+                "type" : "string"
+              },
+              "quantity" : {
+                "type" : "integer"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "schemes" : [ "http" ],
+  "host" : "invoice.icp-proxy.alley-cluster-2-97f2cdaea86b0f55496562172dc793b6-0001.us-east.containers.appdomain.cloud:32689"
+}
