@@ -53,5 +53,5 @@ Once you have completed the items in the previous `Before you Start` section.  Y
 2. Export the API as a `.bar` from the IBM Cloud.  Save it locally where you can easily load it into the Cloud Pak for Integration Later.
 2. Deploy the Designer Flow on to the Cloud Pak for Integration.  You will deploy this as its own helm release.  Use this documentation as your [guide](https://www.ibm.com/support/knowledgecenter/en/SSTTDS_11.0.0/com.ibm.ace.icp.doc/run-designerflow-in-acesoftware/creatingiserver4baricp4i.html).  You can link it to tracing if you like
 3. Deploy the `Invoice.bar` (link when ready) file to your CP4I instance.  Deploy it using ACE with the MQ Client.  You can link it to tracing if you like
-4. Test the Invoice interface by passing the sample data (link when ready) into the interface using the ARC or some REST test interface.
+4. Test the Invoice interface by passing the sample data [here](https://github.com/alley28/integration/blob/master/invoices.json) into the interface using the ARC or some REST test interface.
 5. Create a single API in API Connect that references both Interface 1 and 2.  Test the API using the APIC Interface and then add the Client ID + Secret security schema and redploy your product.
