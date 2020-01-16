@@ -51,19 +51,14 @@ user:admin
 password: Passw0rd!
 ```
 
-### One time creation of Shutdown script
-
-Before you can shutdown your environment properly, you will have to create this script somewhere on your developer machine.  To do this follow these steps:
-
-1. Download this file [here](https://github.com/alley28/integration/blob/master/shutdown-cluster.sh) to your Developer machine (in startup-scripts directory or home directory of ibmuser is fine).
-2. Perform a `chmod +x shutdown-cluster.sh`
 
 ### Shutting down your environment
 
 Before powering off your environment, follow these steps
 
 1. Open Terminal and Enter `su` and type the root password: `IBMDem0s!` (note: this script requires root, thus this step).
-2. Run the shutdown script created in the previous section by typing `./shutdown-cluster.sh`
+2. cd to `/root`
+3. Run this script: `./shutdown-ocp/shutdown-cluster.sh`
 3. It will scale down event streams and aspera and return you back to the prompt once its complete.
 4. You can now safely power off the environment.
 
