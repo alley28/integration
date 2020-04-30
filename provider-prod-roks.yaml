@@ -1,0 +1,106 @@
+
+{
+  "swagger" : "2.0",
+  "info" : {
+    "title" : "Providers",
+    "version" : "0.0.1"
+  },
+  "schemes" : [ "http" ],
+  "basePath" : "/Providers",
+  "consumes" : [ "application/json" ],
+  "produces" : [ "application/json" ],
+  "paths" : {
+    "/provider/{ProviderID}" : {
+      "get" : {
+        "tags" : [ "provider" ],
+        "summary" : "Find a model instance by {{id}} from the data source.",
+        "operationId" : "provider.findById",
+        "parameters" : [ {
+          "name" : "ProviderID",
+          "in" : "path",
+          "description" : "provider id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Request was successful",
+            "schema" : {
+              "$ref" : "#/definitions/provider"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "provider" : {
+      "description" : "",
+      "type" : "object",
+      "properties" : {
+        "ProviderID" : {
+          "type" : "string"
+        },
+        "Providers" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "City" : {
+                "type" : "string"
+              },
+              "Country" : {
+                "type" : "string"
+              },
+              "ExternalProviderID" : {
+                "type" : "string"
+              },
+              "ProviderID" : {
+                "type" : "string"
+              },
+              "ProviderName" : {
+                "type" : "string"
+              },
+              "Phone" : {
+                "type" : "string"
+              },
+              "Postal_Code" : {
+                "type" : "string"
+              },
+              "Practice_Type" : {
+                "type" : "string"
+              },
+              "Primary_Contact" : {
+                "type" : "string"
+              },
+              "Region" : {
+                "type" : "string"
+              },
+              "Street_Address1" : {
+                "type" : "string"
+              },
+              "Street_Address2" : {
+                "type" : "string"
+              },
+              "Street_Address3" : {
+                "type" : "string"
+              },
+              "Street_Address4" : {
+                "type" : "string"
+              },
+              "LastUpdatedDate" : {
+                "type" : "string",
+                "format" : "date-time"
+              },
+              "Website" : {
+                "type" : "string"
+              }
+            }
+          }
+        }
+      },
+      "additionalProperties" : false
+    }
+  },
+  "host" : "provider-prod-http-ace.alleycluster1-97f2cdaea86b0f55496562172dc793b6-0000.us-east.containers.appdomain.cloud"
+}
