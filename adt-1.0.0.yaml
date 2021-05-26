@@ -1,0 +1,52 @@
+swagger: '2.0'
+info:
+  title: adt
+  version: 1.0.0
+  description: ''
+basePath: /adt
+paths:
+  /patient:
+    post:
+      tags:
+        - patient
+      summary: Create a new instance of the model and persist it into the data source.
+      operationId: patient.create
+      parameters:
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/patient'
+      responses:
+        '201':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/patient'
+      deprecated: false
+      security:
+        - basicAuth: []
+tags:
+  - name: patient
+host: designer-designer-https-cp4i.mycluster-wdc04-b3c-16x64-97f2cdaea86b0f55496562172dc793b6-0000.us-east.containers.appdomain.cloud
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+definitions:
+  patient:
+    properties:
+      input:
+        type: string
+      payload:
+        type: object
+        properties: {}
+    required:
+      - input
+    additionalProperties: false
+securityDefinitions:
+  basicAuth:
+    type: basic
