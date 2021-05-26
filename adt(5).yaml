@@ -1,0 +1,1089 @@
+$integration: http://ibm.com/appconnect/integration/v2/integrationFile
+integration:
+  type: api
+  trigger-interfaces:
+    trigger-interface-1:
+      triggers:
+        createPatient:
+          assembly:
+            $ref: '#/integration/assemblies/assembly-1'
+          input-context:
+            data: patient
+          output-context:
+            data: patient
+      options:
+        resources:
+          - business-object: patient
+            model:
+              $ref: '#/models/patient'
+            triggers:
+              create: createPatient
+      type: api-trigger
+  action-interfaces: {}
+  assemblies:
+    assembly-1:
+      assembly:
+        execute:
+          - parse:
+              name: JSON Parser Parse
+              parse-format: json
+              source:
+                template: '{{$string($Request.payload)}}'
+                input:
+                  - variable: Request
+                    $ref: '#/trigger/payload'
+              sample-data: |-
+                {
+                    "ADT_A01": {
+                        "MSH": {
+                            "MSH.1.FieldSeparator": "|",
+                            "MSH.2.ServiceString": {
+                                "ComponentSeparator": "^",
+                                "RepeatSeparator": "~",
+                                "EscapeCharacter": "\\",
+                                "SubComponentSeparator": "&"
+                            },
+                            "MSH.3.SendingApplication": {
+                                "HD.1": "SOURCEEHR"
+                            },
+                            "MSH.4.SendingFacility": {
+                                "HD.1": "WA"
+                            },
+                            "MSH.5.ReceivingApplication": {
+                                "HD.1": "MIRTHDST"
+                            },
+                            "MSH.6.ReceivingFacility": {
+                                "HD.1": "WA"
+                            },
+                            "MSH.7.DateTimeOfMessage": "201611111111",
+                            "MSH.9.MessageType": {
+                                "MSG.1": "ADT",
+                                "MSG.2": "A01",
+                                "MSG.3": "1"
+                            },
+                            "MSH.10.MessageControlID": "MSGID10001",
+                            "MSH.11.ProcessingID": {
+                                "PT.1": "P"
+                            },
+                            "MSH.12.VersionID": {
+                                "VID.1": "2.3"
+                            }
+                        },
+                        "EVN": {
+                            "EVN.1.EventTypeCode": "A01",
+                            "EVN.2.RecordedDateTime": "201611111111"
+                        },
+                        "PID": {
+                            "PID.1.SetIDPID": "1",
+                            "PID.2.PatientID": {
+                                "CX.1": "100001",
+                                "CX.4": {
+                                    "HD.1": "1"
+                                },
+                                "CX.5": "MRN1"
+                            },
+                            "PID.3.PatientIdentifierList": {
+                                "CX.1": "900001"
+                            },
+                            "PID.5.PatientName": {
+                                "XPN.1": {
+                                    "FN.1": "DOE"
+                                },
+                                "XPN.2": "JOHN"
+                            },
+                            "PID.7.DateTimeOfBirth": "19601111",
+                            "PID.8.AdministrativeSex": {
+                                "CWE.1": "M"
+                            },
+                            "PID.10.Race": {
+                                "CWE.1": "WH"
+                            },
+                            "PID.11.PatientAddress": {
+                                "XAD.1": {
+                                    "SAD.1": "111 THAT PL"
+                                },
+                                "XAD.3": "HERE",
+                                "XAD.4": "WA",
+                                "XAD.5": "98020",
+                                "XAD.6": "USA"
+                            },
+                            "PID.13.PhoneNumberHome": {
+                                "XTN.1": "(206)555-5309"
+                            },
+                            "PID.16.MaritalStatus": {
+                                "CWE.1": "M"
+                            },
+                            "PID.17.Religion": {
+                                "CWE.1": "NON"
+                            },
+                            "PID.18.PatientAccountNumber": {
+                                "CX.1": "999999999"
+                            }
+                        },
+                        "NK1": {
+                            "NK1.1.SetIDNK1": "1",
+                            "NK1.2.Name": {
+                                "XPN.1": {
+                                    "FN.1": "DOE"
+                                },
+                                "XPN.2": "JANE"
+                            },
+                            "NK1.3.Relationship": {
+                                "CWE.1": "WIFE"
+                            },
+                            "NK1.5.PhoneNumber": {
+                                "XTN.1": "(206)555-5555"
+                            },
+                            "NK1.9.EndDate": "NK^NEXT OF KIN"
+                        },
+                        "PV1": {
+                            "PV1.1.SetIDPV1": "1",
+                            "PV1.2.PatientClass": {
+                                "CWE.1": "O"
+                            },
+                            "PV1.3.AssignedPatientLocation": {
+                                "PL.1": {
+                                    "HD.1": "1001"
+                                },
+                                "PL.2": {
+                                    "HD.1": "2002"
+                                },
+                                "PL.3": {
+                                    "HD.1": "01"
+                                }
+                            },
+                            "PV1.7.AttendingDoctor": {
+                                "XCN.1": "123456",
+                                "XCN.2": {
+                                    "FN.1": "DOCTOR"
+                                },
+                                "XCN.3": "BOB",
+                                "XCN.4": "T",
+                                "XCN.6": "DR"
+                            },
+                            "PV1.14.AdmitSource": {
+                                "CWE.1": "ADM"
+                            },
+                            "PV1.15.AmbulatoryStatus": {
+                                "CWE.1": "A0"
+                            }
+                        }
+                    }
+                }
+              output-schema:
+                $schema: http://json-schema.org/draft-04/schema#
+                type: object
+                properties:
+                  ADT_A01:
+                    type: object
+                    properties:
+                      MSH:
+                        type: object
+                        properties:
+                          MSH.1.FieldSeparator:
+                            type: string
+                          MSH.2.ServiceString:
+                            type: object
+                            properties:
+                              ComponentSeparator:
+                                type: string
+                              RepeatSeparator:
+                                type: string
+                              EscapeCharacter:
+                                type: string
+                              SubComponentSeparator:
+                                type: string
+                          MSH.3.SendingApplication:
+                            type: object
+                            properties:
+                              HD.1:
+                                type: string
+                          MSH.4.SendingFacility:
+                            type: object
+                            properties:
+                              HD.1:
+                                type: string
+                          MSH.5.ReceivingApplication:
+                            type: object
+                            properties:
+                              HD.1:
+                                type: string
+                          MSH.6.ReceivingFacility:
+                            type: object
+                            properties:
+                              HD.1:
+                                type: string
+                          MSH.7.DateTimeOfMessage:
+                            type: string
+                          MSH.9.MessageType:
+                            type: object
+                            properties:
+                              MSG.1:
+                                type: string
+                              MSG.2:
+                                type: string
+                              MSG.3:
+                                type: string
+                          MSH.10.MessageControlID:
+                            type: string
+                          MSH.11.ProcessingID:
+                            type: object
+                            properties:
+                              PT.1:
+                                type: string
+                          MSH.12.VersionID:
+                            type: object
+                            properties:
+                              VID.1:
+                                type: string
+                      EVN:
+                        type: object
+                        properties:
+                          EVN.1.EventTypeCode:
+                            type: string
+                          EVN.2.RecordedDateTime:
+                            type: string
+                      PID:
+                        type: object
+                        properties:
+                          PID.1.SetIDPID:
+                            type: string
+                          PID.2.PatientID:
+                            type: object
+                            properties:
+                              CX.1:
+                                type: string
+                              CX.4:
+                                type: object
+                                properties:
+                                  HD.1:
+                                    type: string
+                              CX.5:
+                                type: string
+                          PID.3.PatientIdentifierList:
+                            type: object
+                            properties:
+                              CX.1:
+                                type: string
+                          PID.5.PatientName:
+                            type: object
+                            properties:
+                              XPN.1:
+                                type: object
+                                properties:
+                                  FN.1:
+                                    type: string
+                              XPN.2:
+                                type: string
+                          PID.7.DateTimeOfBirth:
+                            type: string
+                          PID.8.AdministrativeSex:
+                            type: object
+                            properties:
+                              CWE.1:
+                                type: string
+                          PID.10.Race:
+                            type: object
+                            properties:
+                              CWE.1:
+                                type: string
+                          PID.11.PatientAddress:
+                            type: object
+                            properties:
+                              XAD.1:
+                                type: object
+                                properties:
+                                  SAD.1:
+                                    type: string
+                              XAD.3:
+                                type: string
+                              XAD.4:
+                                type: string
+                              XAD.5:
+                                type: string
+                              XAD.6:
+                                type: string
+                          PID.13.PhoneNumberHome:
+                            type: object
+                            properties:
+                              XTN.1:
+                                type: string
+                          PID.16.MaritalStatus:
+                            type: object
+                            properties:
+                              CWE.1:
+                                type: string
+                          PID.17.Religion:
+                            type: object
+                            properties:
+                              CWE.1:
+                                type: string
+                          PID.18.PatientAccountNumber:
+                            type: object
+                            properties:
+                              CX.1:
+                                type: string
+                      NK1:
+                        type: object
+                        properties:
+                          NK1.1.SetIDNK1:
+                            type: string
+                          NK1.2.Name:
+                            type: object
+                            properties:
+                              XPN.1:
+                                type: object
+                                properties:
+                                  FN.1:
+                                    type: string
+                              XPN.2:
+                                type: string
+                          NK1.3.Relationship:
+                            type: object
+                            properties:
+                              CWE.1:
+                                type: string
+                          NK1.5.PhoneNumber:
+                            type: object
+                            properties:
+                              XTN.1:
+                                type: string
+                          NK1.9.EndDate:
+                            type: string
+                      PV1:
+                        type: object
+                        properties:
+                          PV1.1.SetIDPV1:
+                            type: string
+                          PV1.2.PatientClass:
+                            type: object
+                            properties:
+                              CWE.1:
+                                type: string
+                          PV1.3.AssignedPatientLocation:
+                            type: object
+                            properties:
+                              PL.1:
+                                type: object
+                                properties:
+                                  HD.1:
+                                    type: string
+                              PL.2:
+                                type: object
+                                properties:
+                                  HD.1:
+                                    type: string
+                              PL.3:
+                                type: object
+                                properties:
+                                  HD.1:
+                                    type: string
+                          PV1.7.AttendingDoctor:
+                            type: object
+                            properties:
+                              XCN.1:
+                                type: string
+                              XCN.2:
+                                type: object
+                                properties:
+                                  FN.1:
+                                    type: string
+                              XCN.3:
+                                type: string
+                              XCN.4:
+                                type: string
+                              XCN.6:
+                                type: string
+                          PV1.14.AdmitSource:
+                            type: object
+                            properties:
+                              CWE.1:
+                                type: string
+                          PV1.15.AmbulatoryStatus:
+                            type: object
+                            properties:
+                              CWE.1:
+                                type: string
+                title: Parsed JSON
+          - response:
+              name: response-1
+              reply-maps:
+                - title: patient successfully created
+                  status-code: '201'
+                  map:
+                    $map: http://ibm.com/appconnect/map/v1
+                    input:
+                      - variable: Request
+                        $ref: '#/trigger/payload'
+                      - variable: JSONParserParse
+                        $ref: '#/node-output/JSON Parser Parse/response/payload'
+                    mappings:
+                      - input:
+                          format:
+                            type: xml
+                            options:
+                              filename: hl7-adt-01.xsd
+                              globalElement: ADT_A01
+                              xsd: >-
+                                <xs:schema attributeFormDefault="unqualified"
+                                elementFormDefault="qualified"
+                                targetNamespace="urn:hl7-org:v2xml"
+                                xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:element
+                                name="ADT_A01"><xs:complexType><xs:sequence><xs:element
+                                name="MSH"><xs:complexType><xs:sequence><xs:element
+                                type="xs:string"
+                                name="MSH.1.FieldSeparator"/><xs:element
+                                name="MSH.2.ServiceString"><xs:complexType><xs:sequence><xs:element
+                                type="xs:string"
+                                name="ComponentSeparator"/><xs:element
+                                type="xs:string"
+                                name="RepeatSeparator"/><xs:element
+                                type="xs:string"
+                                name="EscapeCharacter"/><xs:element
+                                type="xs:string"
+                                name="SubComponentSeparator"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                name="MSH.3.SendingApplication"><xs:complexType><xs:sequence><xs:element
+                                type="xs:string"
+                                name="HD.1"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                name="MSH.4.SendingFacility"><xs:complexType><xs:sequence><xs:element
+                                type="xs:string"
+                                name="HD.1"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                name="MSH.5.ReceivingApplication"><xs:complexType><xs:sequence><xs:element
+                                type="xs:string"
+                                name="HD.1"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                name="MSH.6.ReceivingFacility"><xs:complexType><xs:sequence><xs:element
+                                type="xs:string"
+                                name="HD.1"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                type="xs:long"
+                                name="MSH.7.DateTimeOfMessage"/><xs:element
+                                name="MSH.9.MessageType"><xs:complexType><xs:sequence><xs:element
+                                type="xs:string" name="MSG.1"/><xs:element
+                                type="xs:string" name="MSG.2"/><xs:element
+                                type="xs:byte"
+                                name="MSG.3"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                type="xs:string"
+                                name="MSH.10.MessageControlID"/><xs:element
+                                name="MSH.11.ProcessingID"><xs:complexType><xs:sequence><xs:element
+                                type="xs:string"
+                                name="PT.1"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                name="MSH.12.VersionID"><xs:complexType><xs:sequence><xs:element
+                                type="xs:float"
+                                name="VID.1"/></xs:sequence></xs:complexType></xs:element></xs:sequence></xs:complexType></xs:element><xs:element
+                                name="EVN"><xs:complexType><xs:sequence><xs:element
+                                type="xs:string"
+                                name="EVN.1.EventTypeCode"/><xs:element
+                                type="xs:long"
+                                name="EVN.2.RecordedDateTime"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                name="PID"><xs:complexType><xs:sequence><xs:element
+                                type="xs:byte"
+                                name="PID.1.SetIDPID"/><xs:element
+                                name="PID.2.PatientID"><xs:complexType><xs:sequence><xs:element
+                                type="xs:int" name="CX.1"/><xs:element
+                                name="CX.4"><xs:complexType><xs:sequence><xs:element
+                                type="xs:byte"
+                                name="HD.1"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                type="xs:string"
+                                name="CX.5"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                name="PID.3.PatientIdentifierList"><xs:complexType><xs:sequence><xs:element
+                                type="xs:int"
+                                name="CX.1"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                name="PID.5.PatientName"><xs:complexType><xs:sequence><xs:element
+                                name="XPN.1"><xs:complexType><xs:sequence><xs:element
+                                type="xs:string"
+                                name="FN.1"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                type="xs:string"
+                                name="XPN.2"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                type="xs:int"
+                                name="PID.7.DateTimeOfBirth"/><xs:element
+                                name="PID.8.AdministrativeSex"><xs:complexType><xs:sequence><xs:element
+                                type="xs:string"
+                                name="CWE.1"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                name="PID.10.Race"><xs:complexType><xs:sequence><xs:element
+                                type="xs:string"
+                                name="CWE.1"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                name="PID.11.PatientAddress"><xs:complexType><xs:sequence><xs:element
+                                name="XAD.1"><xs:complexType><xs:sequence><xs:element
+                                type="xs:string"
+                                name="SAD.1"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                type="xs:string" name="XAD.3"/><xs:element
+                                type="xs:string" name="XAD.4"/><xs:element
+                                type="xs:int" name="XAD.5"/><xs:element
+                                type="xs:string"
+                                name="XAD.6"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                name="PID.13.PhoneNumberHome"><xs:complexType><xs:sequence><xs:element
+                                type="xs:string"
+                                name="XTN.1"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                name="PID.16.MaritalStatus"><xs:complexType><xs:sequence><xs:element
+                                type="xs:string"
+                                name="CWE.1"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                name="PID.17.Religion"><xs:complexType><xs:sequence><xs:element
+                                type="xs:string"
+                                name="CWE.1"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                name="PID.18.PatientAccountNumber"><xs:complexType><xs:sequence><xs:element
+                                type="xs:int"
+                                name="CX.1"/></xs:sequence></xs:complexType></xs:element></xs:sequence></xs:complexType></xs:element><xs:element
+                                name="NK1"><xs:complexType><xs:sequence><xs:element
+                                type="xs:byte"
+                                name="NK1.1.SetIDNK1"/><xs:element
+                                name="NK1.2.Name"><xs:complexType><xs:sequence><xs:element
+                                name="XPN.1"><xs:complexType><xs:sequence><xs:element
+                                type="xs:string"
+                                name="FN.1"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                type="xs:string"
+                                name="XPN.2"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                name="NK1.3.Relationship"><xs:complexType><xs:sequence><xs:element
+                                type="xs:string"
+                                name="CWE.1"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                name="NK1.5.PhoneNumber"><xs:complexType><xs:sequence><xs:element
+                                type="xs:string"
+                                name="XTN.1"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                type="xs:string"
+                                name="NK1.9.EndDate"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                name="PV1"><xs:complexType><xs:sequence><xs:element
+                                type="xs:byte"
+                                name="PV1.1.SetIDPV1"/><xs:element
+                                name="PV1.2.PatientClass"><xs:complexType><xs:sequence><xs:element
+                                type="xs:string"
+                                name="CWE.1"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                name="PV1.3.AssignedPatientLocation"><xs:complexType><xs:sequence><xs:element
+                                name="PL.1"><xs:complexType><xs:sequence><xs:element
+                                type="xs:short"
+                                name="HD.1"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                name="PL.2"><xs:complexType><xs:sequence><xs:element
+                                type="xs:short"
+                                name="HD.1"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                name="PL.3"><xs:complexType><xs:sequence><xs:element
+                                type="xs:byte"
+                                name="HD.1"/></xs:sequence></xs:complexType></xs:element></xs:sequence></xs:complexType></xs:element><xs:element
+                                name="PV1.7.AttendingDoctor"><xs:complexType><xs:sequence><xs:element
+                                type="xs:int" name="XCN.1"/><xs:element
+                                name="XCN.2"><xs:complexType><xs:sequence><xs:element
+                                type="xs:string"
+                                name="FN.1"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                type="xs:string" name="XCN.3"/><xs:element
+                                type="xs:string" name="XCN.4"/><xs:element
+                                type="xs:string"
+                                name="XCN.6"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                name="PV1.14.AdmitSource"><xs:complexType><xs:sequence><xs:element
+                                type="xs:string"
+                                name="CWE.1"/></xs:sequence></xs:complexType></xs:element><xs:element
+                                name="PV1.15.AmbulatoryStatus"><xs:complexType><xs:sequence><xs:element
+                                type="xs:string"
+                                name="CWE.1"/></xs:sequence></xs:complexType></xs:element></xs:sequence></xs:complexType></xs:element></xs:sequence></xs:complexType></xs:element></xs:schema>
+                          mappings:
+                            - ADT_A01:
+                                mappings:
+                                  - EVN:
+                                      mappings:
+                                        - '`EVN.1.EventTypeCode`':
+                                            template: >-
+                                              {{$JSONParserParse.ADT_A01.EVN.`EVN.1.EventTypeCode`}}
+                                        - '`EVN.2.RecordedDateTime`':
+                                            template: >-
+                                              {{$JSONParserParse.ADT_A01.EVN.`EVN.2.RecordedDateTime`}}
+                                  - MSH:
+                                      mappings:
+                                        - '`MSH.1.FieldSeparator`':
+                                            template: >-
+                                              {{$JSONParserParse.ADT_A01.MSH.`MSH.1.FieldSeparator`}}
+                                        - '`MSH.10.MessageControlID`':
+                                            template: >-
+                                              {{$JSONParserParse.ADT_A01.MSH.`MSH.10.MessageControlID`}}
+                                        - '`MSH.11.ProcessingID`':
+                                            mappings:
+                                              - '`PT.1`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.MSH.`MSH.11.ProcessingID`.`PT.1`}}
+                                        - '`MSH.12.VersionID`':
+                                            mappings:
+                                              - '`VID.1`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.MSH.`MSH.12.VersionID`.`VID.1`}}
+                                        - '`MSH.2.ServiceString`':
+                                            mappings:
+                                              - ComponentSeparator:
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.MSH.`MSH.2.ServiceString`.ComponentSeparator}}
+                                              - EscapeCharacter:
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.MSH.`MSH.2.ServiceString`.EscapeCharacter}}
+                                              - RepeatSeparator:
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.MSH.`MSH.2.ServiceString`.RepeatSeparator}}
+                                              - SubComponentSeparator:
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.MSH.`MSH.2.ServiceString`.SubComponentSeparator}}
+                                        - '`MSH.3.SendingApplication`':
+                                            mappings:
+                                              - '`HD.1`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.MSH.`MSH.3.SendingApplication`.`HD.1`}}
+                                        - '`MSH.4.SendingFacility`':
+                                            mappings:
+                                              - '`HD.1`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.MSH.`MSH.4.SendingFacility`.`HD.1`}}
+                                        - '`MSH.5.ReceivingApplication`':
+                                            mappings:
+                                              - '`HD.1`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.MSH.`MSH.5.ReceivingApplication`.`HD.1`}}
+                                        - '`MSH.6.ReceivingFacility`':
+                                            mappings:
+                                              - '`HD.1`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.MSH.`MSH.6.ReceivingFacility`.`HD.1`}}
+                                        - '`MSH.7.DateTimeOfMessage`':
+                                            template: >-
+                                              {{$JSONParserParse.ADT_A01.MSH.`MSH.7.DateTimeOfMessage`}}
+                                        - '`MSH.9.MessageType`':
+                                            mappings:
+                                              - '`MSG.1`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.MSH.`MSH.9.MessageType`.`MSG.1`}}
+                                              - '`MSG.2`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.MSH.`MSH.9.MessageType`.`MSG.2`}}
+                                              - '`MSG.3`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.MSH.`MSH.9.MessageType`.`MSG.3`}}
+                                  - NK1:
+                                      mappings:
+                                        - '`NK1.1.SetIDNK1`':
+                                            template: >-
+                                              {{$JSONParserParse.ADT_A01.NK1.`NK1.1.SetIDNK1`}}
+                                        - '`NK1.2.Name`':
+                                            mappings:
+                                              - '`XPN.1`':
+                                                  mappings:
+                                                    - '`FN.1`':
+                                                        template: >-
+                                                          {{$JSONParserParse.ADT_A01.NK1.`NK1.2.Name`.`XPN.1`.`FN.1`}}
+                                              - '`XPN.2`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.NK1.`NK1.2.Name`.`XPN.2`}}
+                                        - '`NK1.3.Relationship`':
+                                            mappings:
+                                              - '`CWE.1`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.NK1.`NK1.3.Relationship`.`CWE.1`}}
+                                        - '`NK1.5.PhoneNumber`':
+                                            mappings:
+                                              - '`XTN.1`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.NK1.`NK1.5.PhoneNumber`.`XTN.1`}}
+                                        - '`NK1.9.EndDate`':
+                                            template: >-
+                                              {{$JSONParserParse.ADT_A01.NK1.`NK1.9.EndDate`}}
+                                  - PID:
+                                      mappings:
+                                        - '`PID.1.SetIDPID`':
+                                            template: >-
+                                              {{$JSONParserParse.ADT_A01.PID.`PID.1.SetIDPID`}}
+                                        - '`PID.10.Race`':
+                                            mappings:
+                                              - '`CWE.1`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.PID.`PID.10.Race`.`CWE.1`}}
+                                        - '`PID.11.PatientAddress`':
+                                            mappings:
+                                              - '`XAD.1`':
+                                                  mappings:
+                                                    - '`SAD.1`':
+                                                        template: >-
+                                                          {{$JSONParserParse.ADT_A01.PID.`PID.11.PatientAddress`.`XAD.1`.`SAD.1`}}
+                                              - '`XAD.3`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.PID.`PID.11.PatientAddress`.`XAD.3`}}
+                                              - '`XAD.4`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.PID.`PID.11.PatientAddress`.`XAD.4`}}
+                                              - '`XAD.5`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.PID.`PID.11.PatientAddress`.`XAD.5`}}
+                                              - '`XAD.6`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.PID.`PID.11.PatientAddress`.`XAD.6`}}
+                                        - '`PID.13.PhoneNumberHome`':
+                                            mappings:
+                                              - '`XTN.1`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.PID.`PID.13.PhoneNumberHome`.`XTN.1`}}
+                                        - '`PID.16.MaritalStatus`':
+                                            mappings:
+                                              - '`CWE.1`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.PID.`PID.16.MaritalStatus`.`CWE.1`}}
+                                        - '`PID.17.Religion`':
+                                            mappings:
+                                              - '`CWE.1`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.PID.`PID.17.Religion`.`CWE.1`}}
+                                        - '`PID.18.PatientAccountNumber`':
+                                            mappings:
+                                              - '`CX.1`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.PID.`PID.18.PatientAccountNumber`.`CX.1`}}
+                                        - '`PID.2.PatientID`':
+                                            mappings:
+                                              - '`CX.1`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.PID.`PID.2.PatientID`.`CX.1`}}
+                                              - '`CX.4`':
+                                                  mappings:
+                                                    - '`HD.1`':
+                                                        template: >-
+                                                          {{$JSONParserParse.ADT_A01.PID.`PID.2.PatientID`.`CX.4`.`HD.1`}}
+                                              - '`CX.5`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.PID.`PID.2.PatientID`.`CX.5`}}
+                                        - '`PID.3.PatientIdentifierList`':
+                                            mappings:
+                                              - '`CX.1`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.PID.`PID.3.PatientIdentifierList`.`CX.1`}}
+                                        - '`PID.5.PatientName`':
+                                            mappings:
+                                              - '`XPN.1`':
+                                                  mappings:
+                                                    - '`FN.1`':
+                                                        template: >-
+                                                          {{$JSONParserParse.ADT_A01.PID.`PID.5.PatientName`.`XPN.1`.`FN.1`}}
+                                              - '`XPN.2`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.PID.`PID.5.PatientName`.`XPN.2`}}
+                                        - '`PID.7.DateTimeOfBirth`':
+                                            template: >-
+                                              {{$JSONParserParse.ADT_A01.PID.`PID.7.DateTimeOfBirth`}}
+                                        - '`PID.8.AdministrativeSex`':
+                                            mappings:
+                                              - '`CWE.1`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.PID.`PID.8.AdministrativeSex`.`CWE.1`}}
+                                  - PV1:
+                                      mappings:
+                                        - '`PV1.1.SetIDPV1`':
+                                            template: >-
+                                              {{$JSONParserParse.ADT_A01.PV1.`PV1.1.SetIDPV1`}}
+                                        - '`PV1.14.AdmitSource`':
+                                            mappings:
+                                              - '`CWE.1`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.PV1.`PV1.14.AdmitSource`.`CWE.1`}}
+                                        - '`PV1.15.AmbulatoryStatus`':
+                                            mappings:
+                                              - '`CWE.1`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.PV1.`PV1.15.AmbulatoryStatus`.`CWE.1`}}
+                                        - '`PV1.2.PatientClass`':
+                                            mappings:
+                                              - '`CWE.1`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.PV1.`PV1.2.PatientClass`.`CWE.1`}}
+                                        - '`PV1.3.AssignedPatientLocation`':
+                                            mappings:
+                                              - '`PL.1`':
+                                                  mappings:
+                                                    - '`HD.1`':
+                                                        expression: >-
+                                                          $JSONParserParse.ADT_A01.PV1.`PV1.3.AssignedPatientLocation`.`PL.1`.`HD.1` 
+                                              - '`PL.2`':
+                                                  mappings:
+                                                    - '`HD.1`':
+                                                        expression: >-
+                                                          $JSONParserParse.ADT_A01.PV1.`PV1.3.AssignedPatientLocation`.`PL.2`.`HD.1` 
+                                              - '`PL.3`':
+                                                  mappings:
+                                                    - '`HD.1`':
+                                                        template: >-
+                                                          {{$JSONParserParse.ADT_A01.PV1.`PV1.3.AssignedPatientLocation`.`PL.3`.`HD.1`}}
+                                        - '`PV1.7.AttendingDoctor`':
+                                            mappings:
+                                              - '`XCN.1`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.PV1.`PV1.7.AttendingDoctor`.`XCN.1`}}
+                                              - '`XCN.2`':
+                                                  mappings:
+                                                    - '`FN.1`':
+                                                        template: >-
+                                                          {{$JSONParserParse.ADT_A01.PV1.`PV1.7.AttendingDoctor`.`XCN.2`.`FN.1`}}
+                                              - '`XCN.3`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.PV1.`PV1.7.AttendingDoctor`.`XCN.3`}}
+                                              - '`XCN.4`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.PV1.`PV1.7.AttendingDoctor`.`XCN.4`}}
+                                              - '`XCN.6`':
+                                                  template: >-
+                                                    {{$JSONParserParse.ADT_A01.PV1.`PV1.7.AttendingDoctor`.`XCN.6`}}
+                    stringFormatSchemas:
+                      properties.`input`:
+                        $schema: http://json-schema.org/draft-04/schema#
+                        type: object
+                        properties:
+                          ADT_A01:
+                            type: object
+                            properties:
+                              MSH:
+                                type: object
+                                properties:
+                                  MSH.1.FieldSeparator:
+                                    type: string
+                                  MSH.2.ServiceString:
+                                    type: object
+                                    properties:
+                                      ComponentSeparator:
+                                        type: string
+                                      RepeatSeparator:
+                                        type: string
+                                      EscapeCharacter:
+                                        type: string
+                                      SubComponentSeparator:
+                                        type: string
+                                  MSH.3.SendingApplication:
+                                    type: object
+                                    properties:
+                                      HD.1:
+                                        type: string
+                                  MSH.4.SendingFacility:
+                                    type: object
+                                    properties:
+                                      HD.1:
+                                        type: string
+                                  MSH.5.ReceivingApplication:
+                                    type: object
+                                    properties:
+                                      HD.1:
+                                        type: string
+                                  MSH.6.ReceivingFacility:
+                                    type: object
+                                    properties:
+                                      HD.1:
+                                        type: string
+                                  MSH.7.DateTimeOfMessage:
+                                    type: string
+                                  MSH.9.MessageType:
+                                    type: object
+                                    properties:
+                                      MSG.1:
+                                        type: string
+                                      MSG.2:
+                                        type: string
+                                      MSG.3:
+                                        type: string
+                                  MSH.10.MessageControlID:
+                                    type: string
+                                  MSH.11.ProcessingID:
+                                    type: object
+                                    properties:
+                                      PT.1:
+                                        type: string
+                                  MSH.12.VersionID:
+                                    type: object
+                                    properties:
+                                      VID.1:
+                                        type: string
+                              EVN:
+                                type: object
+                                properties:
+                                  EVN.1.EventTypeCode:
+                                    type: string
+                                  EVN.2.RecordedDateTime:
+                                    type: string
+                              PID:
+                                type: object
+                                properties:
+                                  PID.1.SetIDPID:
+                                    type: string
+                                  PID.2.PatientID:
+                                    type: object
+                                    properties:
+                                      CX.1:
+                                        type: string
+                                      CX.4:
+                                        type: object
+                                        properties:
+                                          HD.1:
+                                            type: string
+                                      CX.5:
+                                        type: string
+                                  PID.3.PatientIdentifierList:
+                                    type: object
+                                    properties:
+                                      CX.1:
+                                        type: string
+                                  PID.5.PatientName:
+                                    type: object
+                                    properties:
+                                      XPN.1:
+                                        type: object
+                                        properties:
+                                          FN.1:
+                                            type: string
+                                      XPN.2:
+                                        type: string
+                                  PID.7.DateTimeOfBirth:
+                                    type: string
+                                  PID.8.AdministrativeSex:
+                                    type: object
+                                    properties:
+                                      CWE.1:
+                                        type: string
+                                  PID.10.Race:
+                                    type: object
+                                    properties:
+                                      CWE.1:
+                                        type: string
+                                  PID.11.PatientAddress:
+                                    type: object
+                                    properties:
+                                      XAD.1:
+                                        type: object
+                                        properties:
+                                          SAD.1:
+                                            type: string
+                                      XAD.3:
+                                        type: string
+                                      XAD.4:
+                                        type: string
+                                      XAD.5:
+                                        type: string
+                                      XAD.6:
+                                        type: string
+                                  PID.13.PhoneNumberHome:
+                                    type: object
+                                    properties:
+                                      XTN.1:
+                                        type: string
+                                  PID.16.MaritalStatus:
+                                    type: object
+                                    properties:
+                                      CWE.1:
+                                        type: string
+                                  PID.17.Religion:
+                                    type: object
+                                    properties:
+                                      CWE.1:
+                                        type: string
+                                  PID.18.PatientAccountNumber:
+                                    type: object
+                                    properties:
+                                      CX.1:
+                                        type: string
+                              NK1:
+                                type: object
+                                properties:
+                                  NK1.1.SetIDNK1:
+                                    type: string
+                                  NK1.2.Name:
+                                    type: object
+                                    properties:
+                                      XPN.1:
+                                        type: object
+                                        properties:
+                                          FN.1:
+                                            type: string
+                                      XPN.2:
+                                        type: string
+                                  NK1.3.Relationship:
+                                    type: object
+                                    properties:
+                                      CWE.1:
+                                        type: string
+                                  NK1.5.PhoneNumber:
+                                    type: object
+                                    properties:
+                                      XTN.1:
+                                        type: string
+                                  NK1.9.EndDate:
+                                    type: string
+                              PV1:
+                                type: object
+                                properties:
+                                  PV1.1.SetIDPV1:
+                                    type: string
+                                  PV1.2.PatientClass:
+                                    type: object
+                                    properties:
+                                      CWE.1:
+                                        type: string
+                                  PV1.3.AssignedPatientLocation:
+                                    type: object
+                                    properties:
+                                      PL.1:
+                                        type: object
+                                        properties:
+                                          HD.1:
+                                            type: number
+                                      PL.2:
+                                        type: object
+                                        properties:
+                                          HD.1:
+                                            type: number
+                                      PL.3:
+                                        type: object
+                                        properties:
+                                          HD.1:
+                                            type: string
+                                  PV1.7.AttendingDoctor:
+                                    type: object
+                                    properties:
+                                      XCN.1:
+                                        type: string
+                                      XCN.2:
+                                        type: object
+                                        properties:
+                                          FN.1:
+                                            type: string
+                                      XCN.3:
+                                        type: string
+                                      XCN.4:
+                                        type: string
+                                      XCN.6:
+                                        type: string
+                                  PV1.14.AdmitSource:
+                                    type: object
+                                    properties:
+                                      CWE.1:
+                                        type: string
+                                  PV1.15.AmbulatoryStatus:
+                                    type: object
+                                    properties:
+                                      CWE.1:
+                                        type: string
+                              $attributes:
+                                properties:
+                                  $xsiType:
+                                    hidden: true
+                                    properties:
+                                      type:
+                                        type: string
+                                        default: ''
+                                      xmlns:
+                                        type: string
+                                        default: urn:hl7-org:v2xml
+                                    type: object
+                                type: object
+                                hidden: true
+                  input:
+                    - variable: Request
+                      $ref: '#/trigger/payload'
+                    - variable: JSONParserParse
+                      $ref: '#/node-output/JSON Parser Parse/response/payload'
+  name: adt
+models:
+  patient:
+    name: patient
+    properties:
+      input:
+        required: false
+        id: true
+        type: string
+      payload:
+        required: false
+        id: false
+        type: {}
+    plural: patient
+    description: ' '
+    operations:
+      create: '#/integration/assemblies/assembly-1'
